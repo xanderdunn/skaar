@@ -32,6 +32,10 @@ House Mod for Skyrim
     - Append onto `SResoruceArchiveList2`: `Dawnguard.bsa, HearthFires.bsa, Dragonborn.bsa`
 1. Set Creation Kit Settings in SkyrimEditor.ini
   - `bBlockMessageBoxes=1` (Prevent the annoying error messsgaes on Creation Kit file load)
+1. Enable Papyrus Debug Logging.  In Skyrim.ini:
+  - bEnableTrace=1
+  - bEnableLogging=1
+  - bLoadDebugInformation=1
 
 ##### Everyday Setup
 1. Start Creation Kit

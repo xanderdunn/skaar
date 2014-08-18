@@ -1,0 +1,4 @@
+LIBRARY	"skaar"
+EXPORTS
+SKSEPlugin_Query
+SKSEPlugin_Load

@@ -1,0 +1,385 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{AA0365EC-47EA-45AA-BB1F-EBBCCCC466F2}</ProjectGuid>
+    <RootNamespace>skse</RootNamespace>
+    <SccProjectName>
+    </SccProjectName>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)\skse;$(SolutionDir);$(SolutionDir)\..;$(DXSDK_DIR)\Include;$(SolutionDir)\..\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;RUNTIME;RUNTIME_VERSION=0x09200000;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <ForcedIncludeFiles>common/IPrefix.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Message>Installing DLL...</Message>
+      <Command>copy "$(TargetPath)" "$(SkyrimPath)\$(TargetFileName)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)\..;$(DXSDK_DIR)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;RUNTIME;RUNTIME_VERSION=0x09200000;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ForcedIncludeFiles>common/IPrefix.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Message>Installing DLL...</Message>
+      <Command>copy "$(TargetPath)" "$(SkyrimPath)\$(TargetFileName)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\common\common_vc9.vcxproj">
+      <Project>{20c6411c-596f-4b85-be4e-8bc91f59d8a6}</Project>
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CommandTable.cpp" />
+    <ClCompile Include="GameReferences.cpp" />
+    <ClCompile Include="GameTypes.cpp" />
+    <ClCompile Include="PapyrusActiveMagicEffect.cpp" />
+    <ClCompile Include="PapyrusActor.cpp" />
+    <ClCompile Include="PapyrusActorBase.cpp" />
+    <ClCompile Include="PapyrusActorValueInfo.cpp" />
+    <ClCompile Include="PapyrusAlias.cpp" />
+    <ClCompile Include="PapyrusAmmo.cpp" />
+    <ClCompile Include="PapyrusArmor.cpp" />
+    <ClCompile Include="PapyrusArmorAddon.cpp" />
+    <ClCompile Include="PapyrusArt.cpp" />
+    <ClCompile Include="PapyrusBook.cpp" />
+    <ClCompile Include="PapyrusCell.cpp" />
+    <ClCompile Include="PapyrusColorForm.cpp" />
+    <ClCompile Include="PapyrusCombatStyle.cpp" />
+    <ClCompile Include="PapyrusConstructibleObject.cpp" />
+    <ClCompile Include="PapyrusDefaultObjectManager.cpp" />
+    <ClCompile Include="PapyrusEnchantment.cpp" />
+    <ClCompile Include="PapyrusEquipSlot.cpp" />
+    <ClCompile Include="PapyrusFlora.cpp" />
+    <ClCompile Include="PapyrusForm.cpp" />
+    <ClCompile Include="PapyrusGame.cpp" />
+    <ClCompile Include="PapyrusHeadPart.cpp" />
+    <ClCompile Include="PapyrusIngredient.cpp" />
+    <ClCompile Include="PapyrusInput.cpp" />
+    <ClCompile Include="PapyrusKeyword.cpp" />
+    <ClCompile Include="PapyrusLeveledActor.cpp" />
+    <ClCompile Include="PapyrusLeveledItem.cpp" />
+    <ClCompile Include="PapyrusLeveledSpell.cpp" />
+    <ClCompile Include="PapyrusMagicEffect.cpp" />
+    <ClCompile Include="PapyrusMath.cpp" />
+    <ClCompile Include="PapyrusMisc.cpp" />
+    <ClCompile Include="PapyrusModEvent.cpp" />
+    <ClCompile Include="PapyrusNetImmerse.cpp" />
+    <ClCompile Include="PapyrusObjectReference.cpp" />
+    <ClCompile Include="PapyrusPerk.cpp" />
+    <ClCompile Include="PapyrusPotion.cpp" />
+    <ClCompile Include="PapyrusQuest.cpp" />
+    <ClCompile Include="PapyrusRace.cpp" />
+    <ClCompile Include="PapyrusScroll.cpp" />
+    <ClCompile Include="PapyrusShout.cpp" />
+    <ClCompile Include="PapyrusSKSE.cpp" />
+    <ClCompile Include="PapyrusSound.cpp" />
+    <ClCompile Include="PapyrusSoundDescriptor.cpp" />
+    <ClCompile Include="PapyrusSpell.cpp" />
+    <ClCompile Include="PapyrusStringUtil.cpp" />
+    <ClCompile Include="PapyrusTextureSet.cpp" />
+    <ClCompile Include="PapyrusTree.cpp" />
+    <ClCompile Include="PapyrusUI.cpp" />
+    <ClCompile Include="PapyrusUICallback.cpp" />
+    <ClCompile Include="PapyrusUtility.cpp" />
+    <ClCompile Include="PapyrusWeapon.cpp" />
+    <ClCompile Include="PapyrusWeather.cpp" />
+    <ClCompile Include="PapyrusWornObject.cpp" />
+    <ClCompile Include="PapyrusArgs.cpp" />
+    <ClCompile Include="PapyrusClass.cpp" />
+    <ClCompile Include="PapyrusNativeFunctions.cpp" />
+    <ClCompile Include="PapyrusVM.cpp" />
+    <ClCompile Include="PapyrusEvents.cpp" />
+    <ClCompile Include="PapyrusObjects.cpp" />
+    <ClCompile Include="GameAPI.cpp" />
+    <ClCompile Include="GameCamera.cpp" />
+    <ClCompile Include="GameData.cpp" />
+    <ClCompile Include="GameEvents.cpp" />
+    <ClCompile Include="GameExtraData.cpp" />
+    <ClCompile Include="GameFormComponents.cpp" />
+    <ClCompile Include="GameForms.cpp" />
+    <ClCompile Include="GameHandlers.cpp" />
+    <ClCompile Include="GameInput.cpp" />
+    <ClCompile Include="GameMenus.cpp" />
+    <ClCompile Include="GameObjects.cpp" />
+    <ClCompile Include="GamePathing.cpp" />
+    <ClCompile Include="GameResources.cpp" />
+    <ClCompile Include="GameRTTI.cpp" />
+    <ClCompile Include="GameSettings.cpp" />
+    <ClCompile Include="GameStreams.cpp" />
+    <ClCompile Include="GameThreads.cpp" />
+    <ClCompile Include="ScaleformAPI.cpp" />
+    <ClCompile Include="ScaleformCallbacks.cpp" />
+    <ClCompile Include="ScaleformExtendedData.cpp" />
+    <ClCompile Include="ScaleformLoader.cpp" />
+    <ClCompile Include="ScaleformMovie.cpp" />
+    <ClCompile Include="ScaleformState.cpp" />
+    <ClCompile Include="ScaleformTypes.cpp" />
+    <ClCompile Include="ScaleformVM.cpp" />
+    <ClCompile Include="Hooks_Camera.cpp" />
+    <ClCompile Include="Hooks_Debug.cpp" />
+    <ClCompile Include="Hooks_DirectInput8Create.cpp" />
+    <ClCompile Include="Hooks_Event.cpp" />
+    <ClCompile Include="Hooks_Gameplay.cpp" />
+    <ClCompile Include="Hooks_Handlers.cpp" />
+    <ClCompile Include="Hooks_Memory.cpp" />
+    <ClCompile Include="Hooks_NetImmerse.cpp" />
+    <ClCompile Include="Hooks_ObScript.cpp" />
+    <ClCompile Include="Hooks_Papyrus.cpp" />
+    <ClCompile Include="Hooks_SaveLoad.cpp" />
+    <ClCompile Include="Hooks_Scaleform.cpp" />
+    <ClCompile Include="Hooks_Threads.cpp" />
+    <ClCompile Include="Hooks_UI.cpp" />
+    <ClCompile Include="Colors.cpp" />
+    <ClCompile Include="CustomMenu.cpp" />
+    <ClCompile Include="GlobalLocks.cpp" />
+    <ClCompile Include="HashUtil.cpp" />
+    <ClCompile Include="InputMap.cpp" />
+    <ClCompile Include="InternalSerialization.cpp" />
+    <ClCompile Include="PluginManager.cpp" />
+    <ClCompile Include="SafeWrite.cpp" />
+    <ClCompile Include="Serialization.cpp" />
+    <ClCompile Include="Translation.cpp" />
+    <ClCompile Include="Utilities.cpp" />
+    <ClCompile Include="NiControllers.cpp" />
+    <ClCompile Include="NiExtraData.cpp" />
+    <ClCompile Include="NiGeometry.cpp" />
+    <ClCompile Include="NiInterpolators.cpp" />
+    <ClCompile Include="NiLight.cpp" />
+    <ClCompile Include="NiMaterial.cpp" />
+    <ClCompile Include="NiNodes.cpp" />
+    <ClCompile Include="NiObjects.cpp" />
+    <ClCompile Include="NiProperties.cpp" />
+    <ClCompile Include="NiRenderer.cpp" />
+    <ClCompile Include="NiRTTI.cpp" />
+    <ClCompile Include="NiSerialization.cpp" />
+    <ClCompile Include="NiTextures.cpp" />
+    <ClCompile Include="NiTypes.cpp" />
+    <ClCompile Include="skse.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CommandTable.h" />
+    <ClInclude Include="GameReferences.h" />
+    <ClInclude Include="GameTypes.h" />
+    <ClInclude Include="PapyrusActiveMagicEffect.h" />
+    <ClInclude Include="PapyrusActor.h" />
+    <ClInclude Include="PapyrusActorBase.h" />
+    <ClInclude Include="PapyrusActorValueInfo.h" />
+    <ClInclude Include="PapyrusAlias.h" />
+    <ClInclude Include="PapyrusAmmo.h" />
+    <ClInclude Include="PapyrusArmor.h" />
+    <ClInclude Include="PapyrusArmorAddon.h" />
+    <ClInclude Include="PapyrusArt.h" />
+    <ClInclude Include="PapyrusBook.h" />
+    <ClInclude Include="PapyrusCell.h" />
+    <ClInclude Include="PapyrusColorForm.h" />
+    <ClInclude Include="PapyrusCombatStyle.h" />
+    <ClInclude Include="PapyrusConstructibleObject.h" />
+    <ClInclude Include="PapyrusDefaultObjectManager.h" />
+    <ClInclude Include="PapyrusEnchantment.h" />
+    <ClInclude Include="PapyrusEquipSlot.h" />
+    <ClInclude Include="PapyrusFlora.h" />
+    <ClInclude Include="PapyrusForm.h" />
+    <ClInclude Include="PapyrusGame.h" />
+    <ClInclude Include="PapyrusHeadPart.h" />
+    <ClInclude Include="PapyrusIngredient.h" />
+    <ClInclude Include="PapyrusInput.h" />
+    <ClInclude Include="PapyrusKeyword.h" />
+    <ClInclude Include="PapyrusLeveledActor.h" />
+    <ClInclude Include="PapyrusLeveledItem.h" />
+    <ClInclude Include="PapyrusLeveledSpell.h" />
+    <ClInclude Include="PapyrusMagicEffect.h" />
+    <ClInclude Include="PapyrusMath.h" />
+    <ClInclude Include="PapyrusMisc.h" />
+    <ClInclude Include="PapyrusModEvent.h" />
+    <ClInclude Include="PapyrusNetImmerse.h" />
+    <ClInclude Include="PapyrusObjectReference.h" />
+    <ClInclude Include="PapyrusPerk.h" />
+    <ClInclude Include="PapyrusPotion.h" />
+    <ClInclude Include="PapyrusQuest.h" />
+    <ClInclude Include="PapyrusRace.h" />
+    <ClInclude Include="PapyrusScroll.h" />
+    <ClInclude Include="PapyrusShout.h" />
+    <ClInclude Include="PapyrusSKSE.h" />
+    <ClInclude Include="PapyrusSound.h" />
+    <ClInclude Include="PapyrusSoundDescriptor.h" />
+    <ClInclude Include="PapyrusSpell.h" />
+    <ClInclude Include="PapyrusStringUtil.h" />
+    <ClInclude Include="PapyrusTextureSet.h" />
+    <ClInclude Include="PapyrusTree.h" />
+    <ClInclude Include="PapyrusUI.h" />
+    <ClInclude Include="PapyrusUICallback.h" />
+    <ClInclude Include="PapyrusUtility.h" />
+    <ClInclude Include="PapyrusWeapon.h" />
+    <ClInclude Include="PapyrusWeather.h" />
+    <ClInclude Include="PapyrusWornObject.h" />
+    <ClInclude Include="PapyrusArgs.h" />
+    <ClInclude Include="PapyrusClass.h" />
+    <ClInclude Include="PapyrusNativeFunctions.h" />
+    <ClInclude Include="PapyrusVM.h" />
+    <ClInclude Include="PapyrusEvents.h" />
+    <ClInclude Include="PapyrusObjects.h" />
+    <ClInclude Include="GameAPI.h" />
+    <ClInclude Include="GameBSExtraData.h" />
+    <ClInclude Include="GameCamera.h" />
+    <ClInclude Include="GameData.h" />
+    <ClInclude Include="GameEvents.h" />
+    <ClInclude Include="GameExtraData.h" />
+    <ClInclude Include="GameFormComponents.h" />
+    <ClInclude Include="GameForms.h" />
+    <ClInclude Include="GameHandlers.h" />
+    <ClInclude Include="GameInput.h" />
+    <ClInclude Include="GameMenus.h" />
+    <ClInclude Include="GameObjects.h" />
+    <ClInclude Include="GamePathing.h" />
+    <ClInclude Include="GameResources.h" />
+    <ClInclude Include="GameRTTI.h" />
+    <ClInclude Include="GameSettings.h" />
+    <ClInclude Include="GameStreams.h" />
+    <ClInclude Include="GameThreads.h" />
+    <ClInclude Include="ScaleformAPI.h" />
+    <ClInclude Include="ScaleformCallbacks.h" />
+    <ClInclude Include="ScaleformExtendedData.h" />
+    <ClInclude Include="ScaleformLoader.h" />
+    <ClInclude Include="ScaleformMovie.h" />
+    <ClInclude Include="ScaleformState.h" />
+    <ClInclude Include="ScaleformTypes.h" />
+    <ClInclude Include="ScaleformVM.h" />
+    <ClInclude Include="Hooks_Camera.h" />
+    <ClInclude Include="Hooks_Debug.h" />
+    <ClInclude Include="Hooks_DirectInput8Create.h" />
+    <ClInclude Include="Hooks_Event.h" />
+    <ClInclude Include="Hooks_Gameplay.h" />
+    <ClInclude Include="Hooks_Handlers.h" />
+    <ClInclude Include="Hooks_Memory.h" />
+    <ClInclude Include="Hooks_NetImmerse.h" />
+    <ClInclude Include="Hooks_ObScript.h" />
+    <ClInclude Include="Hooks_Papyrus.h" />
+    <ClInclude Include="Hooks_SaveLoad.h" />
+    <ClInclude Include="Hooks_Scaleform.h" />
+    <ClInclude Include="Hooks_Threads.h" />
+    <ClInclude Include="Hooks_UI.h" />
+    <ClInclude Include="Colors.h" />
+    <ClInclude Include="CustomMenu.h" />
+    <ClInclude Include="GlobalLocks.h" />
+    <ClInclude Include="HashUtil.h" />
+    <ClInclude Include="InputMap.h" />
+    <ClInclude Include="InternalSerialization.h" />
+    <ClInclude Include="PluginAPI.h" />
+    <ClInclude Include="PluginManager.h" />
+    <ClInclude Include="SafeWrite.h" />
+    <ClInclude Include="Serialization.h" />
+    <ClInclude Include="Translation.h" />
+    <ClInclude Include="Utilities.h" />
+    <ClInclude Include="NiControllers.h" />
+    <ClInclude Include="NiExtraData.h" />
+    <ClInclude Include="NiGeometry.h" />
+    <ClInclude Include="NiInterpolators.h" />
+    <ClInclude Include="NiLight.h" />
+    <ClInclude Include="NiMaterial.h" />
+    <ClInclude Include="NiNodes.h" />
+    <ClInclude Include="NiObjects.h" />
+    <ClInclude Include="NiProperties.h" />
+    <ClInclude Include="NiRenderer.h" />
+    <ClInclude Include="NiRTTI.h" />
+    <ClInclude Include="NiSerialization.h" />
+    <ClInclude Include="NiTextures.h" />
+    <ClInclude Include="NiTypes.h" />
+    <ClInclude Include="skse_version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PapyrusNativeFunctionDef.inl" />
+    <None Include="PapyrusNativeFunctionDef_Base.inl" />
+    <None Include="exports.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="skse_version.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,1 @@
+#include "skse/NiProperties.h"
