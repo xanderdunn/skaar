@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2013 for Windows Desktop
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "skse", "skse\skse.vcxproj", "{AA0365EC-47EA-45AA-BB1F-EBBCCCC466F2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "common", "common\common.vcxproj", "{20C6411C-596F-4B85-BE4E-8BC91F59D8A6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hardcore_skse_plugin", "hardcore_skse_plugin\hardcore_skse_plugin.vcxproj", "{F5733524-3503-4806-A3D6-1AA65AF7B22F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AA0365EC-47EA-45AA-BB1F-EBBCCCC466F2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AA0365EC-47EA-45AA-BB1F-EBBCCCC466F2}.Debug|Win32.Build.0 = Debug|Win32
+		{AA0365EC-47EA-45AA-BB1F-EBBCCCC466F2}.Release|Win32.ActiveCfg = Release|Win32
+		{AA0365EC-47EA-45AA-BB1F-EBBCCCC466F2}.Release|Win32.Build.0 = Release|Win32
+		{20C6411C-596F-4B85-BE4E-8BC91F59D8A6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{20C6411C-596F-4B85-BE4E-8BC91F59D8A6}.Debug|Win32.Build.0 = Debug|Win32
+		{20C6411C-596F-4B85-BE4E-8BC91F59D8A6}.Release|Win32.ActiveCfg = Release|Win32
+		{20C6411C-596F-4B85-BE4E-8BC91F59D8A6}.Release|Win32.Build.0 = Release|Win32
+		{F5733524-3503-4806-A3D6-1AA65AF7B22F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F5733524-3503-4806-A3D6-1AA65AF7B22F}.Debug|Win32.Build.0 = Debug|Win32
+		{F5733524-3503-4806-A3D6-1AA65AF7B22F}.Release|Win32.ActiveCfg = Release|Win32
+		{F5733524-3503-4806-A3D6-1AA65AF7B22F}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 7
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ..\\common\\common_vc9.vcproj
+		SccLocalPath1 = ..\\common
+		SccProjectUniqueName2 = loader_common\\loader_common.vcproj
+		SccLocalPath2 = .
+		SccProjectFilePathRelativizedFromConnection2 = loader_common\\
+		SccProjectUniqueName3 = skse\\skse.vcproj
+		SccLocalPath3 = .
+		SccProjectFilePathRelativizedFromConnection3 = skse\\
+		SccProjectUniqueName4 = skse_loader\\skse_loader.vcproj
+		SccLocalPath4 = .
+		SccProjectFilePathRelativizedFromConnection4 = skse_loader\\
+		SccProjectUniqueName5 = steam_loader\\steam_loader.vcproj
+		SccLocalPath5 = .
+		SccProjectFilePathRelativizedFromConnection5 = steam_loader\\
+		SccProjectUniqueName6 = plugin_example\\plugin_example.vcproj
+		SccLocalPath6 = .
+		SccProjectFilePathRelativizedFromConnection6 = plugin_example\\
+	EndGlobalSection
+EndGlobal

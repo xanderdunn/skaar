@@ -1,0 +1,4 @@
+LIBRARY	"plugin_example"
+EXPORTS
+SKSEPlugin_Query
+SKSEPlugin_Load

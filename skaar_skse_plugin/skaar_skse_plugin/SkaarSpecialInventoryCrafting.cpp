@@ -38,38 +38,6 @@ public:
 		return true;
 	}
 
-	bool IsValidEntry(TESContainer::Entry* pEntry, SInt32& numObjects)
-	{
-		if (pEntry) {
-			numObjects = pEntry->count;
-			TESForm* pForm = pEntry->form;
-
-			if (DYNAMIC_CAST(pForm, TESForm, TESLevItem))
-				return false;
-
-			ExtraContainerMap::iterator it = m_map.find(pForm);
-			ExtraContainerMap::iterator itEnd = m_map.end();
-			if (it != itEnd) {
-				UInt32 index = it->second;
-				ExtraContainerChanges::EntryData* pXData = m_vec[index];
-				if (pXData) {
-					numObjects += pXData->countDelta;
-				}
-				// clear the object from the vector so we don't bother to look for it
-				// in the second step
-				m_vec[index] = NULL;
-			}
-
-			if (numObjects > 0) {
-				//if (IsConsoleMode()) {
-				//	PrintItemType(pForm);
-				//}
-				return true;
-			}
-		}
-		return false;
-	}
-
 	// returns the count of items left in the vector
 	UInt32 CountItems() {
 		UInt32 count = 0;
