@@ -4,9 +4,7 @@ scriptName  SkaarSpecialInventoryWorkbench extends ObjectReference
 
 import SkaarSpecialInventoryCrafting
 
-GlobalVariable Property SkaarWorkingAtWorkbench Auto
-
 Event OnActivate ( objectReference triggerRef )
-	SkaarWorkingAtWorkbench.SetValue(1)
+	Keyword.GetKeyword("SkaarContainerWorkbenchEventKeyword").SendStoryEvent(None, None, None, 0)
 	SkaarSpecialInventoryCrafting.SkaarAddItemsFromContainerToContainer(self.GetLinkedRef(NONE), triggerRef, 30)
-endEvent
+EndEvent
