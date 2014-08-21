@@ -150,10 +150,17 @@ namespace SkaarSpecialInventoryCrafting {
 
 	// Create a new list of all items of the given type that are in the given container
 	ExtraContainerChanges::EntryDataList *SkaarGetAllItems(TESObjectREFR* container, FormType type) {
+		_MESSAGE("SkaarGetAllItems called");
 		ExtraContainerChanges* containerChanges = static_cast<ExtraContainerChanges*>(container->extraData.GetByType(kExtraData_ContainerChanges));
+		if (!containerChanges) {
+			return NULL;
+		}
 		ExtraContainerChanges::EntryDataList *containerItems = containerChanges->data->objList;
 		ExtraContainerChanges::EntryDataList *itemsList = ExtraContainerChanges::EntryDataList::Create();
-
+		if (!itemsList || !containerItems || containerItems->Count() <= 0) {
+			return NULL;
+		}
+		_MESSAGE("SkaarGetAllItems about to loop");
 		for (size_t i = 0; i < containerItems->Count(); i++) {
 			ExtraContainerChanges::EntryData *currentEntry = containerItems->GetNthItem(i);
 			if (currentEntry && currentEntry->countDelta > 0) {
@@ -163,6 +170,7 @@ namespace SkaarSpecialInventoryCrafting {
 				}
 			}
 		}
+		_MESSAGE("SkaarGetAllItems about to return");
 		return itemsList;
 	}
 
@@ -174,14 +182,19 @@ namespace SkaarSpecialInventoryCrafting {
 		if (!pDestContainerRef || !pSourceContainerRef) {
 			return;
 		}
-
 		// Get the list of deltas on the source container
 		ExtraContainerChanges::EntryDataList *sourceContainerItems = SkaarGetAllItems(pSourceContainerRef, type);
+		if (!sourceContainerItems || sourceContainerItems->Count() <= 0) {
+			return;
+		}
 
 		// Get the list of things to add to the destination container
 		ExtraContainerInfo destContainerInfo = SkaarItemInfoForObjectReference(pDestContainerRef);
 		ExtraContainerChanges::EntryDataList *newEntryDataList = destContainerInfo.SkaarEntryDataListWithExistingItemCounts(sourceContainerItems);
-		
+		if (!newEntryDataList || newEntryDataList->Count() <= 0) {
+			return;
+		}
+
 		// Put into the list those items that were already on the destination but not in the source so they aren't lost
 		newEntryDataList = SkaarAddRemainingItems(newEntryDataList, pDestContainerRef, type);
 
