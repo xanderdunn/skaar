@@ -1,5 +1,6 @@
 scriptName  SkaarWorkbenchContainersPlayer extends Actor
 {Add this script to the Player object to remove items from the workbench container while it's being used}
+; Usage: Add to Player, connect GlobalVariable SkaarWorkingAtWorkbench, and set the container as the LinkedRef on the workbench
 
 import SkaarSpecialInventoryCrafting
 
@@ -24,6 +25,5 @@ Event OnGetUp(ObjectReference akFurniture)
 EndEvent
 
 Event OnSit(ObjectReference akFurniture)	
-	Debug.Trace("Asociating furniture " + akFurniture)
 	Workbench = akFurniture
 EndEvent
