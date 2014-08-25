@@ -70,7 +70,7 @@ public:
 	}
 
 	// Take an EntryDataList and self.  Any item in self that isn't already in the given EntryDataList will be added to that list
-	ExtraContainerChanges::EntryDataList *SkaarAddRemainingItems(ExtraContainerChanges::EntryDataList *currentEntries, FormType type) {
+	ExtraContainerChanges::EntryDataList *SkaarAddRemainingItems(ExtraContainerChanges::EntryDataList *currentEntries) {
 		// Iterate through all the items in self
 		ExtraDataVec::iterator iteratorPosition = m_vec.begin();
 		ExtraDataVec::iterator iteratorEnd = m_vec.end();
@@ -92,7 +92,7 @@ public:
 
 namespace SkaarSpecialInventoryCrafting {
 	ExtraContainerInfo SkaarItemInfoForObjectReference(TESObjectREFR* pContainerRef);
-	ExtraContainerChanges::EntryDataList *SkaarAddRemainingItems(ExtraContainerChanges::EntryDataList *currentItems, TESObjectREFR *pContainerRef, FormType type);
+	ExtraContainerChanges::EntryDataList *SkaarAddRemainingItems(ExtraContainerChanges::EntryDataList *currentItems, TESObjectREFR *pContainerRef);
 	bool SkaarEntryDataListContainsEntryData(ExtraContainerChanges::EntryDataList *entryDataList, ExtraContainerChanges::EntryData *entry);
 	ExtraContainerChanges::EntryDataList *SkaarGetAllItems(TESObjectREFR* container, FormType type);
 
@@ -145,7 +145,7 @@ namespace SkaarSpecialInventoryCrafting {
 		}
 
 		// Put into the list those items that were already on the destination but not in the source so they aren't lost
-		newEntryDataList = SkaarAddRemainingItems(newEntryDataList, pDestContainerRef, type);
+		newEntryDataList = SkaarAddRemainingItems(newEntryDataList, pDestContainerRef);
 
 		_DMESSAGE("About to add ExtraContainerChanges to the player that has %d items in it", newEntryDataList->Count());
 		ExtraContainerChanges* pXDestContainerChanges = static_cast<ExtraContainerChanges*>(pDestContainerRef->extraData.GetByType(kExtraData_ContainerChanges));
@@ -186,9 +186,10 @@ namespace SkaarSpecialInventoryCrafting {
 		}
 	}
 
-	ExtraContainerChanges::EntryDataList *SkaarAddRemainingItems(ExtraContainerChanges::EntryDataList *currentItems, TESObjectREFR *pContainerRef, FormType type) {
+	// TODO: The SkaarAddRemainingItems functions above in the other namespace ought to be merged into this
+	ExtraContainerChanges::EntryDataList *SkaarAddRemainingItems(ExtraContainerChanges::EntryDataList *currentItems, TESObjectREFR *pContainerRef) {
 		ExtraContainerInfo containerInfo = SkaarItemInfoForObjectReference(pContainerRef);
-		return containerInfo.SkaarAddRemainingItems(currentItems, type);
+		return containerInfo.SkaarAddRemainingItems(currentItems);
 	}
 
 	// Get the items info object for a given container object reference
