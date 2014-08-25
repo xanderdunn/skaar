@@ -9,6 +9,7 @@
 #include "skse/GameObjects.h"
 #include "skse/GameExtraData.h"
 #include "skse/GameData.h"
+#include "skse/PapyrusForm.h"
 
 #include <vector>
 #include <map>
@@ -38,39 +39,6 @@ public:
 		return true;
 	}
 
-	// returns the count of items left in the vector
-	UInt32 CountItems() {
-		UInt32 count = 0;
-		ExtraDataVec::iterator itEnd = m_vec.end();
-		ExtraDataVec::iterator it = m_vec.begin();
-		while (it != itEnd) {
-			ExtraContainerChanges::EntryData* extraData = (*it);
-			if (extraData && (extraData->countDelta > 0)) {
-				count++;
-				//if (IsConsoleMode()) {
-				//	PrintItemType(extraData->type);
-				//}
-			}
-			++it;
-		}
-		return count;
-	}
-
-	// returns the weight of items left in the vector
-	float GetTotalWeight() {
-		float weight = 0.0;
-		ExtraDataVec::iterator itEnd = m_vec.end();
-		ExtraDataVec::iterator it = m_vec.begin();
-		while (it != itEnd) {
-			ExtraContainerChanges::EntryData* extraData = (*it);
-			if (extraData && (extraData->countDelta > 0)) {
-				weight += papyrusForm::GetWeight(extraData->type);
-			}
-			++it;
-		}
-		return weight;
-	}
-
 	// Create an EntryDataList that includes all of the items in the given EntryDataList, taking into account that some items may already exist on this container
 	ExtraContainerChanges::EntryDataList *SkaarEntryDataListWithExistingItemCounts(ExtraContainerChanges::EntryDataList *givenItemsList) {
 		ExtraContainerChanges::EntryDataList *newEntryList = ExtraContainerChanges::EntryDataList::Create();
@@ -78,7 +46,7 @@ public:
 			ExtraContainerChanges::EntryData *currentEntry = givenItemsList->GetNthItem(i);
 			TESForm *currentForm = currentEntry->type;
 			UInt32 currentCount = currentEntry->countDelta;
-			_MESSAGE("Starting search for FormID %d", currentForm->formID);
+			_DMESSAGE("Starting search for FormID %d, name %s", currentForm->formID, papyrusForm::GetName(currentForm));
 
 			// See if this list already has this TESForm
 			ExtraContainerMap::iterator it = m_map.find(currentForm);
@@ -87,13 +55,13 @@ public:
 				UInt32 index = it->second;
 				ExtraContainerChanges::EntryData* pXData = m_vec[index];
 				if (pXData) {
-					_MESSAGE("EXISTING FormID %d", pXData->type->formID);
-					ExtraContainerChanges::EntryData *newData = ExtraContainerChanges::EntryData::Create(pXData->type, pXData->countDelta+currentCount);
+					_DMESSAGE("EXISTING FormID %d, name %s", pXData->type->formID, papyrusForm::GetName(currentForm));
+					ExtraContainerChanges::EntryData *newData = ExtraContainerChanges::EntryData::Create(pXData->type, pXData->countDelta + currentCount);
 					newEntryList->Push(newData);
 				}
 			}
 			else {  // If not, create a new EntryData object and add it to m_vec
-				_MESSAGE("NEW FormID %d, count %d", currentForm->formID, currentCount);
+				_DMESSAGE("NEW FormID %d, name %s, count %d", currentForm->formID, papyrusForm::GetName(currentForm), currentCount);
 				ExtraContainerChanges::EntryData *newData = ExtraContainerChanges::EntryData::Create(currentForm, currentCount);
 				newEntryList->Push(newData);
 			}
@@ -108,41 +76,21 @@ public:
 		ExtraDataVec::iterator iteratorEnd = m_vec.end();
 		while (iteratorPosition != iteratorEnd) {
 			ExtraContainerChanges::EntryData* entryData = (*iteratorPosition);
-			if (entryData && entryData->countDelta > 0) {
-				if (entryData->type->GetFormType() == type || type == kFormType_None) {
-					_MESSAGE("EXISTING PLAYER %d", entryData->type->formID);
-					bool alreadyThere = SkaarSpecialInventoryCrafting::SkaarEntryDataListContainsEntryData(currentEntries, entryData);
-					if (!alreadyThere) {
-						currentEntries->Push(entryData);
-					}
+			if (entryData) {	//  && entryData->countDelta > 0
+				_DMESSAGE("EXISTING PLAYER %d", entryData->type->formID);
+				bool alreadyThere = SkaarSpecialInventoryCrafting::SkaarEntryDataListContainsEntryData(currentEntries, entryData);
+				if (!alreadyThere) {
+					currentEntries->Push(entryData);
 				}
 			}
 			++iteratorPosition;
 		}
 		return currentEntries;
 	}
-
-	ExtraContainerChanges::EntryData* GetNth(UInt32 n, UInt32 count) {
-		ExtraDataVec::iterator itEnd = m_vec.end();
-		ExtraDataVec::iterator it = m_vec.begin();
-		while (it != itEnd) {
-			ExtraContainerChanges::EntryData* extraData = (*it);
-			if (extraData && (extraData->countDelta > 0)) {
-				if (count == n)
-				{
-					return extraData;
-				}
-				count++;
-			}
-			++it;
-		}
-		return NULL;
-	}
 };
 
 
 namespace SkaarSpecialInventoryCrafting {
-
 	ExtraContainerInfo SkaarItemInfoForObjectReference(TESObjectREFR* pContainerRef);
 	ExtraContainerChanges::EntryDataList *SkaarAddRemainingItems(ExtraContainerChanges::EntryDataList *currentItems, TESObjectREFR *pContainerRef, FormType type);
 	bool SkaarEntryDataListContainsEntryData(ExtraContainerChanges::EntryDataList *entryDataList, ExtraContainerChanges::EntryData *entry);
@@ -150,7 +98,7 @@ namespace SkaarSpecialInventoryCrafting {
 
 	// Create a new list of all items of the given type that are in the given container
 	ExtraContainerChanges::EntryDataList *SkaarGetAllItems(TESObjectREFR* container, FormType type) {
-		_MESSAGE("SkaarGetAllItems called");
+		_DMESSAGE("SkaarGetAllItems called");
 		ExtraContainerChanges* containerChanges = static_cast<ExtraContainerChanges*>(container->extraData.GetByType(kExtraData_ContainerChanges));
 		if (!containerChanges) {
 			return NULL;
@@ -160,24 +108,25 @@ namespace SkaarSpecialInventoryCrafting {
 		if (!itemsList || !containerItems || containerItems->Count() <= 0) {
 			return NULL;
 		}
-		_MESSAGE("SkaarGetAllItems about to loop");
+		_DMESSAGE("SkaarGetAllItems about to loop");
 		for (size_t i = 0; i < containerItems->Count(); i++) {
 			ExtraContainerChanges::EntryData *currentEntry = containerItems->GetNthItem(i);
-			if (currentEntry && currentEntry->countDelta > 0) {
+			if (currentEntry) {
 				if (currentEntry->type->GetFormType() == type || type == kFormType_None) {
-					_MESSAGE("Found TESForm %d", currentEntry->type->formID);
+					_DMESSAGE("Found TESForm %d", currentEntry->type->formID);
 					itemsList->Push(currentEntry);
 				}
 			}
 		}
-		_MESSAGE("SkaarGetAllItems about to return");
+		_DMESSAGE("SkaarGetAllItems about to return");
 		return itemsList;
 	}
 
 	// For each item in a given source container, add the same number of every item to the destination container
+	// In the case of the workbench containers mod, the source container is the workbench's container and the destination container is the player
 	void SkaarAddItemsFromContainerToContainer(StaticFunctionTag *base, TESObjectREFR* pSourceContainerRef, TESObjectREFR* pDestContainerRef, UInt32 typeID) {
 		FormType type = static_cast <FormType>(typeID);
-		_MESSAGE("SkaarAddItemsFromContainerToContainer() called");
+		_DMESSAGE("SkaarAddItemsFromContainerToContainer() called");
 
 		if (!pDestContainerRef || !pSourceContainerRef) {
 			return;
@@ -198,12 +147,10 @@ namespace SkaarSpecialInventoryCrafting {
 		// Put into the list those items that were already on the destination but not in the source so they aren't lost
 		newEntryDataList = SkaarAddRemainingItems(newEntryDataList, pDestContainerRef, type);
 
+		_DMESSAGE("About to add ExtraContainerChanges to the player that has %d items in it", newEntryDataList->Count());
 		ExtraContainerChanges* pXDestContainerChanges = static_cast<ExtraContainerChanges*>(pDestContainerRef->extraData.GetByType(kExtraData_ContainerChanges));
 		pXDestContainerChanges->data->objList = newEntryDataList;
-		_MESSAGE("About to add ExtraContainerChanges to the player that has %d items in it", newEntryDataList->Count());
-		pDestContainerRef->extraData.Add(kExtraData_ContainerChanges, pXDestContainerChanges);
-
-		_MESSAGE("SkaarAddItemsFromContainerToContainer() finished");
+		_DMESSAGE("SkaarAddItemsFromContainerToContainer() finished");
 	}
 
 	void SkaarRemoveItemsInContainerFromContainer(StaticFunctionTag *base, TESObjectREFR* pInContainerRef, TESObjectREFR* pFromContainerRef, UInt32 typeID) {
@@ -218,7 +165,7 @@ namespace SkaarSpecialInventoryCrafting {
 		}
 
 		ExtraContainerChanges::EntryDataList *fromContainerItems = SkaarGetAllItems(pFromContainerRef, type);
-		_MESSAGE("About to remove ExtraContainerChanges from the player that has %d items in it", inContainerItems->Count());
+		_DMESSAGE("About to remove ExtraContainerChanges from the player that has %d items in it", inContainerItems->Count());
 		for (size_t i = 0; i < inContainerItems->Count(); i++) {
 			ExtraContainerChanges::EntryData *currentInEntry = inContainerItems->GetNthItem(i);
 			if (!currentInEntry) {
@@ -226,7 +173,7 @@ namespace SkaarSpecialInventoryCrafting {
 			}
 			for (size_t j = 0; j < fromContainerItems->Count(); j++) {
 				ExtraContainerChanges::EntryData *currentFromEntry = fromContainerItems->GetNthItem(j);
-				if (currentFromEntry && currentFromEntry->type == currentInEntry->type && currentInEntry->countDelta > 0) {
+				if (currentFromEntry && currentFromEntry->type == currentInEntry->type && currentInEntry->countDelta > 0) {	// I do actually want to ignore items with a negative count here because I do not want to add back items that were removed from the InContainer
 					UINT32 delta = currentFromEntry->countDelta - currentInEntry->countDelta;
 					if (delta >= 0) {
 						currentFromEntry->countDelta = delta;
@@ -280,4 +227,4 @@ namespace SkaarSpecialInventoryCrafting {
 
 		return true;
 	}
-} 
+}

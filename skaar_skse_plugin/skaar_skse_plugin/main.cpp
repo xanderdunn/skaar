@@ -12,25 +12,29 @@ extern "C"	{
 	bool SKSEPlugin_Query(const SKSEInterface * skse, PluginInfo * info)	{	// Called by SKSE to learn about this plugin and check that it's safe to load it
 		gLog.OpenRelative(CSIDL_MYDOCUMENTS, "\\My Games\\Skyrim\\SKSE\\Skaar.log");
 		gLog.SetPrintLevel(IDebugLog::kLevel_Error);
+#ifdef _DEBUG
 		gLog.SetLogLevel(IDebugLog::kLevel_DebugMessage);
+#else
+		gLog.SetLogLevel(IDebugLog::kLevel_Message);
+#endif
 
 		_MESSAGE("SkaarSpecialInventoryCrafting");
 
 		// populate info structure
-		info->infoVersion =	PluginInfo::kInfoVersion;
-		info->name =		"SkaarSpecialInventoryCrafting";
-		info->version =		1;
+		info->infoVersion = PluginInfo::kInfoVersion;
+		info->name = "SkaarSpecialInventoryCrafting";
+		info->version = 1;
 
 		// store plugin handle so we can identify ourselves later
 		g_pluginHandle = skse->GetPluginHandle();
 
-		if(skse->isEditor)
+		if (skse->isEditor)
 		{
 			_MESSAGE("loaded in editor, marking as incompatible");
 
 			return false;
 		}
-		else if(skse->runtimeVersion != RUNTIME_VERSION_1_9_32_0)
+		else if (skse->runtimeVersion != RUNTIME_VERSION_1_9_32_0)
 		{
 			_MESSAGE("unsupported runtime version %08X", skse->runtimeVersion);
 
