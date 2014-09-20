@@ -34,7 +34,7 @@ Global
 	GlobalSection(SourceCodeControl) = preSolution
 		SccNumberOfProjects = 7
 		SccLocalPath0 = .
-		SccProjectUniqueName1 = ..\\common\\common_vc9.vcproj
+		SccProjectUniqueName1 = ..\\common\\common.vcproj
 		SccLocalPath1 = ..\\common
 		SccProjectUniqueName2 = loader_common\\loader_common.vcproj
 		SccLocalPath2 = .

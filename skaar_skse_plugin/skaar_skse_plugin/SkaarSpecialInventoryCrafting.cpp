@@ -1,4 +1,5 @@
 #include "SkaarSpecialInventoryCrafting.h"
+#include "SkaarInventory.h"
 
 #include "skse/PapyrusForm.h"
 
@@ -78,7 +79,7 @@ public:
 			ExtraContainerChanges::EntryData* entryData = (*iteratorPosition);
 			if (entryData) {	//  && entryData->countDelta > 0
 				_DMESSAGE("EXISTING PLAYER %d", entryData->type->formID);
-				bool alreadyThere = SkaarSpecialInventoryCrafting::SkaarEntryDataListContainsEntryData(currentEntries, entryData);
+				bool alreadyThere = SkaarInventory::SkaarEntryDataListContainsEntryData(currentEntries, entryData);
 				if (!alreadyThere) {
 					currentEntries->Push(entryData);
 				}
@@ -91,36 +92,8 @@ public:
 
 
 namespace SkaarSpecialInventoryCrafting {
-	ExtraContainerInfo SkaarItemInfoForObjectReference(TESObjectREFR* pContainerRef);
 	ExtraContainerChanges::EntryDataList *SkaarAddRemainingItems(ExtraContainerChanges::EntryDataList *currentItems, TESObjectREFR *pContainerRef);
-	bool SkaarEntryDataListContainsEntryData(ExtraContainerChanges::EntryDataList *entryDataList, ExtraContainerChanges::EntryData *entry);
-	ExtraContainerChanges::EntryDataList *SkaarGetAllItems(TESObjectREFR* container, FormType type);
-
-	// Create a new list of all items of the given type that are in the given container
-	ExtraContainerChanges::EntryDataList *SkaarGetAllItems(TESObjectREFR* container, FormType type) {
-		_DMESSAGE("SkaarGetAllItems called");
-		ExtraContainerChanges* containerChanges = static_cast<ExtraContainerChanges*>(container->extraData.GetByType(kExtraData_ContainerChanges));
-		if (!containerChanges) {
-			return NULL;
-		}
-		ExtraContainerChanges::EntryDataList *containerItems = containerChanges->data->objList;
-		ExtraContainerChanges::EntryDataList *itemsList = ExtraContainerChanges::EntryDataList::Create();
-		if (!itemsList || !containerItems || containerItems->Count() <= 0) {
-			return NULL;
-		}
-		_DMESSAGE("SkaarGetAllItems about to loop");
-		for (size_t i = 0; i < containerItems->Count(); i++) {
-			ExtraContainerChanges::EntryData *currentEntry = containerItems->GetNthItem(i);
-			if (currentEntry) {
-				if (currentEntry->type->GetFormType() == type || type == kFormType_None) {
-					_DMESSAGE("Found TESForm %d", currentEntry->type->formID);
-					itemsList->Push(currentEntry);
-				}
-			}
-		}
-		_DMESSAGE("SkaarGetAllItems about to return");
-		return itemsList;
-	}
+	ExtraContainerInfo SkaarItemInfoForObjectReference(TESObjectREFR* pContainerRef);
 
 	// For each item in a given source container, add the same number of every item to the destination container
 	// In the case of the workbench containers mod, the source container is the workbench's container and the destination container is the player
@@ -132,7 +105,7 @@ namespace SkaarSpecialInventoryCrafting {
 			return;
 		}
 		// Get the list of deltas on the source container
-		ExtraContainerChanges::EntryDataList *sourceContainerItems = SkaarGetAllItems(pSourceContainerRef, type);
+		ExtraContainerChanges::EntryDataList *sourceContainerItems = SkaarInventory::SkaarGetAllItems(pSourceContainerRef, type);
 		if (!sourceContainerItems || sourceContainerItems->Count() <= 0) {
 			return;
 		}
@@ -159,12 +132,12 @@ namespace SkaarSpecialInventoryCrafting {
 			return;
 		}
 		// Get the items from the in container
-		ExtraContainerChanges::EntryDataList *inContainerItems = SkaarGetAllItems(pInContainerRef, type);
+		ExtraContainerChanges::EntryDataList *inContainerItems = SkaarInventory::SkaarGetAllItems(pInContainerRef, type);
 		if (!inContainerItems || !(inContainerItems->Count() > 0)) {
 			return;
 		}
 
-		ExtraContainerChanges::EntryDataList *fromContainerItems = SkaarGetAllItems(pFromContainerRef, type);
+		ExtraContainerChanges::EntryDataList *fromContainerItems = SkaarInventory::SkaarGetAllItems(pFromContainerRef, type);
 		_DMESSAGE("About to remove ExtraContainerChanges from the player that has %d items in it", inContainerItems->Count());
 		for (size_t i = 0; i < inContainerItems->Count(); i++) {
 			ExtraContainerChanges::EntryData *currentInEntry = inContainerItems->GetNthItem(i);
@@ -207,16 +180,6 @@ namespace SkaarSpecialInventoryCrafting {
 		ExtraContainerInfo info(pXContainerChanges ? pXContainerChanges->data->objList : NULL);
 
 		return info;
-	}
-
-	bool SkaarEntryDataListContainsEntryData(ExtraContainerChanges::EntryDataList *entryDataList, ExtraContainerChanges::EntryData *entry) {
-		for (size_t i = 0; i < entryDataList->Count(); i++) {
-			ExtraContainerChanges::EntryData *currentEntry = entryDataList->GetNthItem(i);
-			if (currentEntry->type == entry->type) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	bool RegisterFuncs(VMClassRegistry* registry) {

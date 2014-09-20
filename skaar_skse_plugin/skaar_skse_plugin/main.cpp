@@ -1,8 +1,10 @@
 #include "skse/PluginAPI.h"		// super
 #include "skse/skse_version.h"	// What version of SKSE is running?
 #include <shlobj.h>				// CSIDL_MYCODUMENTS
+#include <time.h>
 
 #include "SkaarSpecialInventoryCrafting.h"
+#include "SkaarSoulTrap.h"
 
 static PluginHandle					g_pluginHandle = kPluginHandle_Invalid;
 static SKSEPapyrusInterface         * g_papyrus = NULL;
@@ -18,24 +20,22 @@ extern "C"	{
 		gLog.SetLogLevel(IDebugLog::kLevel_Message);
 #endif
 
-		_MESSAGE("SkaarSpecialInventoryCrafting");
+		_MESSAGE("Skaar SKSE Plugin");
 
 		// populate info structure
 		info->infoVersion = PluginInfo::kInfoVersion;
-		info->name = "SkaarSpecialInventoryCrafting";
+		info->name = "Skaar";
 		info->version = 1;
 
 		// store plugin handle so we can identify ourselves later
 		g_pluginHandle = skse->GetPluginHandle();
 
-		if (skse->isEditor)
-		{
+		if (skse->isEditor) {
 			_MESSAGE("loaded in editor, marking as incompatible");
 
 			return false;
 		}
-		else if (skse->runtimeVersion != RUNTIME_VERSION_1_9_32_0)
-		{
+		else if (skse->runtimeVersion != RUNTIME_VERSION_1_9_32_0) {
 			_MESSAGE("unsupported runtime version %08X", skse->runtimeVersion);
 
 			return false;
@@ -49,14 +49,16 @@ extern "C"	{
 	}
 
 	bool SKSEPlugin_Load(const SKSEInterface * skse)	{	// Called by SKSE to load this plugin
-		_MESSAGE("SkaarSpecialInventoryCrafting loaded");
+		_MESSAGE("Skaar SKSE Plugin loaded");
 
 		g_papyrus = (SKSEPapyrusInterface *)skse->QueryInterface(kInterface_Papyrus);
 
 		//Check if the function registration was a success...
-		bool btest = g_papyrus->Register(SkaarSpecialInventoryCrafting::RegisterFuncs);
+		bool registerInventoryCrafting = g_papyrus->Register(SkaarSpecialInventoryCrafting::RegisterFuncs);
+		bool registerSoulTrap = g_papyrus->Register(SkaarSoulTrap::RegisterFuncs);
 
-		if (btest) {
+		if (registerInventoryCrafting && registerSoulTrap) {
+			srand(time(NULL));
 			_MESSAGE("Register Succeeded");
 		}
 
